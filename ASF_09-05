@@ -1,0 +1,84 @@
+syms t a
+f = sym(1)
+
+F = laplace(f)
+
+f = exp(a*t)
+
+F = laplace(f)
+
+laplace(t)
+laplace(t^2)
+laplace(t^3)
+
+clear
+syms a omega t
+laplace(cos(omega*t))
+laplace(sin(omega*t))
+
+laplace(exp(-a*t)*cos(omega*t))
+laplace(exp(-a*t)*sin(omega*t))
+
+clear
+syms t
+laplace(cos(3*t))
+laplace(exp(-2*t)*sin(3*t))
+
+clear
+syms s
+F = (s+3)/((s+1)*(s+2))
+partfrac(F)
+f = ilaplace(F)
+F = (2*s+1)/(s^2+3*s+2)
+f = ilaplace(F)
+
+clear
+syms s
+F = 2/((s+1)*(s+2)^2)
+f = ilaplace(F)
+
+clear
+syms s
+F = (2*s+12)/(s^2+2*s+5)
+f = ilaplace(F)
+
+clear
+syms s
+F = 10/((s+2)*(s^2+2*s+10))
+f = ilaplace(F)
+
+clear
+syms s
+F = 1/(s^2+4*s+85)
+f = ilaplace(F)
+
+clear
+t = 0:0.01:3;
+x = 1/9*sin(9*t).*exp(-2*t);
+plot(t,x), hold off
+
+clear
+G = tf(1,[1 4 85])
+impulse(G)
+step(G)
+
+clear
+syms s
+F = 1/(s^2+4*s+85)*1/s
+f = ilaplace(F)
+
+clear
+t = 0:0.01:3;
+x = 1/85-exp(-2*t).*(2/9*sin(9*t)+cos(9*t))/85;
+plot(t,x), hold off
+
+clear 
+syms k1 k2 k3 m1 m2 b F X1 X2 s
+
+eqn1 = (m1*s^2+b*s+(k1+k2))*X1 == F + (b*s + k2)*X2
+eqn2 = (m2*s^2+b*s+(k2+k3))*X2 == (b*s + k2)*X1
+
+eqns = [eqn1, eqn2];
+S = solve(eqns, [X1 X2]);
+S.X1
+S.X2
